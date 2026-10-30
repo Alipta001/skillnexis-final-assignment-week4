@@ -20,15 +20,13 @@ export default function Header() {
     <header className="site-header">
       <div className="header-inner">
         <Link
-          aria-label="Field and Form home"
+          aria-label="ShopWithMe home"
           className="brand"
           onClick={closeMenu}
           to="/"
         >
-          <span className="brand-symbol">f.</span>
-          <span>
-            field<span className="brand-amp">&</span>form
-          </span>
+          <span className="brand-symbol">S</span>
+          <span>ShopWithMe</span>
         </Link>
         <button
           aria-expanded={menuOpen}

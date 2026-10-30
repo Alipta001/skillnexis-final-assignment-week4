@@ -46,7 +46,7 @@ export default function ProductCard({ product, index = 0 }) {
           />
         ) : (
           <div className="product-placeholder">
-            <span>field&form</span>
+            <span>ShopWithMe</span>
           </div>
         )}
         <span className="product-category">{product.category}</span>

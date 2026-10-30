@@ -33,7 +33,7 @@ export default function AuthPage({ mode }) {
     try {
       if (isRegister) await register(form);
       else await login({ email: form.email, password: form.password });
-      notify(isRegister ? "Welcome to Field & Form." : "Welcome back.");
+      notify(isRegister ? "Welcome to ShopWithMe." : "Welcome back.");
       const destination = location.state?.from?.pathname || "/";
       navigate(destination, { replace: true });
     } catch (requestError) {
@@ -52,7 +52,7 @@ export default function AuthPage({ mode }) {
         </Link>
         <div className="auth-panel">
           <div className="auth-aside">
-            <p className="eyebrow">FIELD & FORM ACCOUNT</p>
+            <p className="eyebrow">SHOPWITHME ACCOUNT</p>
             <h1>
               {isRegister ? "A good place to begin." : "Good to see you again."}
             </h1>
@@ -116,7 +116,7 @@ export default function AuthPage({ mode }) {
               <ArrowRight size={16} />
             </button>
             <p className="auth-switch">
-              {isRegister ? "Already have an account?" : "New to Field & Form?"}{" "}
+              {isRegister ? "Already have an account?" : "New to ShopWithMe?"}{" "}
               <Link to={isRegister ? "/login" : "/register"}>
                 {isRegister ? "Sign in" : "Create one"}
               </Link>

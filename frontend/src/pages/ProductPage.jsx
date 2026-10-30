@@ -76,7 +76,7 @@ export default function ProductPage() {
                 <img alt={product.name} src={getImageUrl(product.image)} />
               ) : (
                 <div className="product-placeholder">
-                  <span>field&form</span>
+                  <span>ShopWithMe</span>
                 </div>
               )}
             </div>

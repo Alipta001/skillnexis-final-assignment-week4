@@ -1,4 +1,4 @@
-# Field & Form
+# ShopWithMe
 
 A small full-stack storefront built with React, Vite, Tailwind CSS, Express,
 MongoDB and Mongoose. Customers can browse products, create an account, keep a

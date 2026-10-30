@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "Field & Form E-commerce API",
+    "name": "ShopWithMe E-commerce API",
     "description": "Set token after login. Public registration only creates user accounts.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },

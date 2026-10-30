@@ -7,10 +7,8 @@ export default function Footer() {
       <div className="footer-inner">
         <div>
           <Link className="brand footer-brand" to="/">
-            <span className="brand-symbol">f.</span>
-            <span>
-              field<span className="brand-amp">&</span>form
-            </span>
+            <span className="brand-symbol">S</span>
+            <span>ShopWithMe</span>
           </Link>
           <p>Good things for the everyday.</p>
         </div>
@@ -22,7 +20,7 @@ export default function Footer() {
             Order history <ArrowUpRight size={14} />
           </Link>
         </div>
-        <small>© {new Date().getFullYear()} Field & Form</small>
+        <small>© {new Date().getFullYear()} ShopWithMe</small>
       </div>
     </footer>
   );
