@@ -38,7 +38,7 @@ npm run dev
 ```
 
 Open the Vite URL, normally `http://localhost:5173`. Set `VITE_API_URL` in
-`frontend/.env` if the backend uses another address.
+`frontend/.env` to the backend URL; the frontend adds `/api` if it is omitted.
 
 ## Create an administrator
 
