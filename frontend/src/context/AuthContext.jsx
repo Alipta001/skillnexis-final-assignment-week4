@@ -30,21 +30,28 @@ export function AuthProvider({ children }) {
       .finally(() => setLoading(false));
   }, []);
 
-  const authenticate = useCallback(async (endpoint, details) => {
+  const authenticate = useCallback(async (endpoint, details, expectedRole) => {
     const { data } = await api.post(`/auth/${endpoint}`, details);
+    if (expectedRole && data.user.role !== expectedRole) {
+      throw new Error(
+        expectedRole === "admin"
+          ? "This account does not have administrator access."
+          : "This is an administrator account. Choose admin login.",
+      );
+    }
     localStorage.setItem("fieldFormToken", data.token);
     setUser(data.user);
     return data.user;
   }, []);
 
   const login = useCallback(
-    (details) => authenticate("login", details),
+    (details, expectedRole) => authenticate("login", details, expectedRole),
     [authenticate],
   );
-  const register = useCallback(
-    (details) => authenticate("register", details),
-    [authenticate],
-  );
+  const register = useCallback(async (details) => {
+    const { data } = await api.post("/auth/register", details);
+    return data.user;
+  }, []);
   const logout = useCallback(() => {
     localStorage.removeItem("fieldFormToken");
     setUser(null);

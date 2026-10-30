@@ -13,11 +13,23 @@ export default function AuthPage({ mode }) {
   const { notify } = useToast();
   const location = useLocation();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [loginRole, setLoginRole] = useState(() =>
+    location.state?.from?.pathname === "/admin" ? "admin" : "user",
+  );
+  const [form, setForm] = useState(() => ({
+    name: "",
+    email: location.state?.email || "",
+    password: "",
+  }));
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
-  if (user) return <Navigate replace to="/" />;
+  if (user) {
+    const destination =
+      location.state?.from?.pathname ||
+      (user.role === "admin" ? "/admin" : "/");
+    return <Navigate replace to={destination} />;
+  }
 
   function update(event) {
     setForm((current) => ({
@@ -31,10 +43,27 @@ export default function AuthPage({ mode }) {
     setBusy(true);
     setError("");
     try {
-      if (isRegister) await register(form);
-      else await login({ email: form.email, password: form.password });
-      notify(isRegister ? "Welcome to ShopWithMe." : "Welcome back.");
-      const destination = location.state?.from?.pathname || "/";
+      if (isRegister) {
+        await register(form);
+        notify("Account created. Please sign in.");
+        navigate("/login", {
+          replace: true,
+          state: { email: form.email },
+        });
+        return;
+      }
+
+      const authenticatedUser = await login(
+        {
+          email: form.email,
+          password: form.password,
+        },
+        loginRole,
+      );
+      notify("Welcome back.");
+      const destination =
+        location.state?.from?.pathname ||
+        (authenticatedUser.role === "admin" ? "/admin" : "/");
       navigate(destination, { replace: true });
     } catch (requestError) {
       setError(getErrorMessage(requestError, "Could not sign you in."));
@@ -63,6 +92,30 @@ export default function AuthPage({ mode }) {
               {isRegister ? "CREATE AN ACCOUNT" : "WELCOME BACK"}
             </p>
             <h2>{isRegister ? "Join us." : "Sign in."}</h2>
+            {!isRegister && (
+              <div
+                aria-label="Choose login type"
+                className="auth-role-options"
+                role="group"
+              >
+                <button
+                  aria-pressed={loginRole === "user"}
+                  className={loginRole === "user" ? "selected" : ""}
+                  onClick={() => setLoginRole("user")}
+                  type="button"
+                >
+                  Customer login
+                </button>
+                <button
+                  aria-pressed={loginRole === "admin"}
+                  className={loginRole === "admin" ? "selected" : ""}
+                  onClick={() => setLoginRole("admin")}
+                  type="button"
+                >
+                  Admin login
+                </button>
+              </div>
+            )}
             {isRegister && (
               <label>
                 Your name
@@ -112,7 +165,7 @@ export default function AuthPage({ mode }) {
                 ? "One moment..."
                 : isRegister
                   ? "Create account"
-                  : "Sign in"}{" "}
+                  : `Sign in as ${loginRole === "admin" ? "admin" : "customer"}`}{" "}
               <ArrowRight size={16} />
             </button>
             <p className="auth-switch">
